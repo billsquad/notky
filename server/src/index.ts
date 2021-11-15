@@ -4,8 +4,8 @@ import express from "express";
 import { buildSchema } from "type-graphql";
 
 import { __prod__ } from "./constants";
-import { Article } from "./entities/Article";
 import mikroOrmConfig from "./mikro-orm.config";
+import { ArticleResolver } from "./resolvers/article";
 import { HelloResolver } from "./resolvers/hello";
 
 const main = async () => {
@@ -16,9 +16,10 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver],
+      resolvers: [HelloResolver, ArticleResolver],
       validate: false,
     }),
+    context: () => ({ em: orm.em }),
   });
 
   apolloServer.applyMiddleware({ app });
@@ -27,8 +28,11 @@ const main = async () => {
     console.log("Server is listening at http://localhost:5000");
   });
 
-  const article = orm.em.create(Article, { title: "new article" });
-  await orm.em.persistAndFlush(article);
+  // const article = orm.em.create(Article, { title: "new article" });
+  // await orm.em.persistAndFlush(article);
+
+  // const articles = await orm.em.find(Article, {});
+  // console.log(articles);
 };
 
 main().catch((err) => {
