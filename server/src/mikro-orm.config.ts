@@ -3,13 +3,14 @@ import path from "path";
 
 import { __prod__ } from "./constants";
 import { Article } from "./entities/Article";
+import { User } from "./entities/User";
 
 export default {
   migrations: {
     path: path.join(__dirname, "./migrations"),
     pattern: /^[\w-]+\d+\.[tj]s$/,
   },
-  entities: [Article],
+  entities: [Article, User],
   dbName: "notky",
   password: "postgres123",
   type: "postgresql",
