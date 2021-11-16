@@ -3,6 +3,7 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import { buildSchema } from "type-graphql";
 import connectRedis from "connect-redis";
+import cors from "cors";
 
 import { __prod__ } from "./constants";
 import mikroOrmConfig from "./mikro-orm.config";
@@ -22,6 +23,12 @@ const main = async () => {
   let RedisStore = connectRedis(session);
   let redisClient = redis.createClient();
 
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
   app.use(
     session({
       name: "sessionId",
@@ -49,7 +56,10 @@ const main = async () => {
     context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   app.listen(5000, () => {
     console.log("Server is listening at http://localhost:5000");
