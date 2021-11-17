@@ -11,11 +11,13 @@ const Index = () => {
       <Navbar />
       <div>articles</div>
       <br />
-      {data
-        ? data.articles.map((a) => <div key={a.title}>{a.title}</div>)
-        : null}
+      {data ? (
+        data.articles.map((a) => <div key={a.title}>{a.title}</div>)
+      ) : (
+        <div>loading...</div>
+      )}
     </>
   );
 };
 
-export default withUrqlClient(createUrqlClient)(Index);
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
