@@ -5,7 +5,7 @@ import { buildSchema } from "type-graphql";
 import connectRedis from "connect-redis";
 import cors from "cors";
 
-import { __prod__ } from "./constants";
+import { COOKIE, __prod__ } from "./constants";
 import mikroOrmConfig from "./mikro-orm.config";
 import { ArticleResolver } from "./resolvers/article";
 import { InitResolver } from "./resolvers/init";
@@ -31,7 +31,7 @@ const main = async () => {
   );
   app.use(
     session({
-      name: "sessionId",
+      name: COOKIE,
       store: new RedisStore({
         client: redisClient,
         disableTouch: true,
