@@ -20,8 +20,8 @@ const main = async () => {
 
   const app = express();
 
-  let RedisStore = connectRedis(session);
-  let redisClient = redis.createClient();
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
 
   app.use(
     cors({

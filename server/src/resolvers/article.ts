@@ -20,7 +20,6 @@ export class ArticleResolver {
 
   @Mutation(() => Article)
   async createArticle(
-    // @Arg('title', () => String) title: string,
     @Arg("title", () => String) title: string,
     @Ctx() { em }: MyContext
   ): Promise<Article> {
